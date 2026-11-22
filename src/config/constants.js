@@ -87,19 +87,41 @@ const GAGNOA_LANDMARKS = Object.freeze([
   },
 ]);
 
-// Tarifs de base par défaut en Francs CFA (XOF)
-const DEFAULT_PRICING = Object.freeze({
+/**
+ * Grille tarifaire par paliers de distance adaptée aux réalités de terrain de Gagnoa.
+ * Ville de l'intérieur du pays : circulation fluide, trajets courts fréquents,
+ * mais aussi des zones périphériques éloignées.
+ *
+ * | Tranche        | Distance        | Réalité terrain                           |
+ * |----------------|-----------------|-------------------------------------------|
+ * | Courte         | 0 – 1,5 km      | Même quartier (ex: dans Garahio)          |
+ * | Moyenne        | 1,5 – 3 km      | Quartiers voisins (ex: Garahio → Dokui)   |
+ * | Longue         | 3 – 6 km        | Traversée de la ville (ex: Dokui → Babré) |
+ * | Très éloignée  | 6+ km           | Périphérie éloignée                       |
+ */
+const PRICING_TIERS = Object.freeze({
   MOTO_TAXI: {
-    BASE_FARE: 200,      // Prise en charge minimale
-    PER_KM_RATE: 150,    // Coût par kilomètre
-    MINIMUM_FARE: 200,
+    tiers: [
+      { maxKm: 1.5, fixedFare: 200 },   // Trajet court : tarif fixe de quartier
+      { maxKm: 3,   fixedFare: 300 },   // Trajet moyen : inter-quartier
+      { maxKm: 6,   fixedFare: 500 },   // Trajet long : traversée de la ville
+    ],
+    extensionRatePerKm: 100,              // Supplément par km au-delà de 6 km
+    lastTierBase: 500,                    // Base à partir de laquelle le supplément s'applique
   },
   COMMUNAL_TAXI: {
-    BASE_FARE: 300,      // Prise en charge minimale
-    PER_KM_RATE: 200,    // Coût par kilomètre
-    MINIMUM_FARE: 300,
+    tiers: [
+      { maxKm: 1.5, fixedFare: 300 },   // Trajet court : tarif fixe de quartier
+      { maxKm: 3,   fixedFare: 500 },   // Trajet moyen : inter-quartier
+      { maxKm: 6,   fixedFare: 750 },   // Trajet long : traversée de la ville
+    ],
+    extensionRatePerKm: 150,              // Supplément par km au-delà de 6 km
+    lastTierBase: 750,                    // Base à partir de laquelle le supplément s'applique
   },
 });
+
+// Vitesse moyenne de circulation à Gagnoa (ville fluide de l'intérieur du pays)
+const GAGNOA_AVG_SPEED_KMH = 35;
 
 module.exports = {
   ROLES,
@@ -109,5 +131,6 @@ module.exports = {
   PAYMENT_STATUSES,
   DRIVER_STATUSES,
   GAGNOA_LANDMARKS,
-  DEFAULT_PRICING,
+  PRICING_TIERS,
+  GAGNOA_AVG_SPEED_KMH,
 };
