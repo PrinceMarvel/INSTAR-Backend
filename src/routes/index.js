@@ -8,6 +8,7 @@ const router = express.Router();
 const authRoutes = require('./authRoutes');
 const driverRoutes = require('./driverRoutes');
 const landmarkRoutes = require('./landmarkRoutes');
+const rideRoutes = require('./rideRoutes');
 
 // Point de contrôle d'état pour les hébergeurs (Render, monitoring de production)
 router.get('/health', (req, res) => {
@@ -23,5 +24,6 @@ router.get('/health', (req, res) => {
 router.use('/auth', authRoutes);
 router.use('/drivers', driverRoutes);
 router.use('/landmarks', landmarkRoutes);
+router.use('/rides', rideRoutes);
 
 module.exports = router;
