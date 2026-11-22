@@ -6,8 +6,8 @@
 const Joi = require('joi');
 const { VEHICLE_TYPES, ROLES } = require('../config/constants');
 
-// Expression régulière pour les numéros de téléphone ivoiriens (ex: 0102030405 ou +2250102030405)
-const phoneRegex = /^(\+225)?[0-9]{10}$/;
+// Expression régulière internationale E.164 (avec ou sans indicatif pays, ex: +2250102030405, +33612345678, etc.)
+const phoneRegex = /^\+?[0-9]{8,15}$/;
 
 const passengerRegisterSchema = Joi.object({
   fullName: Joi.string().trim().min(3).max(100).required().messages({
@@ -18,7 +18,7 @@ const passengerRegisterSchema = Joi.object({
   }),
   phoneNumber: Joi.string().trim().pattern(phoneRegex).required().messages({
     'string.empty': 'Le numéro de téléphone est obligatoire.',
-    'string.pattern.base': 'Le numéro de téléphone doit être un numéro valide à 10 chiffres (ex: 0708091011 ou +2250708091011).',
+    'string.pattern.base': 'Veuillez saisir un numéro de téléphone valide avec l’indicatif de votre pays (ex: +2250708091011 ou +33612345678).',
     'any.required': 'Le numéro de téléphone est obligatoire.',
   }),
   password: Joi.string().min(6).max(128).required().messages({
