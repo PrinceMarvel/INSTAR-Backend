@@ -10,6 +10,7 @@ const driverRoutes = require('./driverRoutes');
 const landmarkRoutes = require('./landmarkRoutes');
 const rideRoutes = require('./rideRoutes');
 const paymentRoutes = require('./paymentRoutes');
+const adminRoutes = require('./adminRoutes');
 
 // Point de contrôle d'état pour les hébergeurs (Render, monitoring de production)
 router.get('/health', (req, res) => {
@@ -27,5 +28,6 @@ router.use('/drivers', driverRoutes);
 router.use('/landmarks', landmarkRoutes);
 router.use('/rides', rideRoutes);
 router.use('/payments', paymentRoutes);
+router.use('/admin', adminRoutes);
 
 module.exports = router;
