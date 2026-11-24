@@ -46,6 +46,7 @@ class AuthService {
 
     return {
       user: newUser,
+      role: ROLES.PASSENGER,
       token,
     };
   }
@@ -75,6 +76,7 @@ class AuthService {
 
     return {
       driver: newDriver,
+      role: ROLES.DRIVER,
       token,
       message: 'Compte chauffeur créé avec succès. Il sera activé après validation administrative.',
     };
